@@ -1,15 +1,15 @@
 <?php
 
 namespace frontend\controllers;
+
 use Yii;
-use frontend\models\Courses; 
+use frontend\models\Courses;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\Pagination;
 use frontend\models\UserCourses;
-
 
 /**
  * CoursesController implements the CRUD actions for Courses model.
@@ -56,7 +56,6 @@ class CoursesController extends Controller
             'courses' => $courses,
             'pagination' => $pagination,
         ]);
-
     }
 
     /**
@@ -67,68 +66,16 @@ class CoursesController extends Controller
      */
     public function actionView($id)
     {
-        if (Yii::$app->user->isGuest){
+        if (Yii::$app->user->isGuest) {
             $this->redirect(Yii::$app->urlManager->createUrl(['site/signup']));
-        }
-    else{	
-        return $this->render('view', [
+        } else {
+            return $this->render('view', [
             'model' => $this->findModel($id),
             
         ]);
-     }
-    }
-
-    /**
-     * Creates a new Courses model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Courses();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Updates an existing Courses model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Courses model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Courses model based on its primary key value.
@@ -146,6 +93,8 @@ class CoursesController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /*Adds course to myCourses*/
+
     public function actionEnroll($id)
     {
         $user = Yii::$app->user->identity;
@@ -155,9 +104,11 @@ class CoursesController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
+    /*Displays courses in myCourses*/
+
     public function actionMyCourses()
     {
         $courses = Yii::$app->user->identity->courses;
-        return $this->render(['myCourses', 'courses' => $courses]);
+        return $this->render('myCourses', ['courses' => $courses]);
     }
 }

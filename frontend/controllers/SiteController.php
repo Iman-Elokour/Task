@@ -13,15 +13,10 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 use frontend\models\Courses;
 use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use frontend\models\Course;
-
-
-
-
 
 /**
  * Site controller
@@ -80,6 +75,8 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+
+    /*Displays Courses */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
@@ -102,7 +99,6 @@ class SiteController extends Controller
             'pagination' => $pagination,
             
         ]);
-
     }
 
     /**
@@ -138,39 +134,6 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 
     /**
@@ -283,14 +246,6 @@ class SiteController extends Controller
 
         return $this->render('resendVerificationEmail', [
             'model' => $model
-        ]);
-    }
-
-    public function actionView($id)
-    {
-        $data = Courses::findOne($id);
-        return $this->render('course', [
-            'data' => $data,
         ]);
     }
 }

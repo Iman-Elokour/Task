@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\models;
+
 use common\models\User;
 
 use Yii;
@@ -54,7 +55,10 @@ class Courses extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
   
-    public function getUsers() {
+
+    /* define relationship with user table */
+    public function getUsers()
+    {
         return $this->hasMany(User::className(), ['id' => 'user_id'])
           ->viaTable('user_courses', ['course_id' => 'id']);
     }
