@@ -154,4 +154,10 @@ class CoursesController extends Controller
         Yii::$app->session->setFlash('success', "You have been enrolled.");
         return $this->redirect(['view', 'id' => $id]);
     }
+
+    public function actionMyCourses($id)
+    {
+        $courses = Yii::$app->user->identity->courses;
+        return $this->render(['myCourses', 'courses' => $courses]);
+    }
 }
