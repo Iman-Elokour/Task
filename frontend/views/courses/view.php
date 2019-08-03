@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Add', ['add', 'id' => $model->id], ['class' => 'btn btn-primary',
+        <?= Html::a('enroll', ['enroll', 'id' => $model->id], ['class' => 'btn btn-primary',
         'data' => [
-            'confirm' => 'Are you sure you want to add this course?',
+            'confirm' => 'Are you sure you want to enroll to this course?',
             'method' => 'post',]
             ]) ?>   
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="display-2"><?= Html::encode($model->name)?></h1>
     <br><br>
     <div class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/PkZNo7MFNFg" allowfullscreen></iframe>
+  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<?php echo $model->video?>" allowfullscreen></iframe>
 </div>
 
     <?= DetailView::widget([

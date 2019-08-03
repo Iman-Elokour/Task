@@ -105,20 +105,15 @@ class CoursesController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
 
-        $user = Yii::$app->user;
-        $courses =  $this->findModel($id);
-        $courses->link('user', $user);
-        // // $user->link('courses', $courses);
-        // $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['view', 'id' => $model->id]);
-        // }
-
-        // return $this->render('update', [
-        //     'model' => $model,
-        // ]);
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -151,11 +146,12 @@ class CoursesController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionAddCourse($courseId)
+    public function actionEnroll($id)
     {
-        $model = new UserCourses;
-        $model->user_id=Yii::$app->user->id;
-        $model->course_id=$courseId;
-        $model->save();
+        $user = Yii::$app->user->identity;
+        $course =  $this->findModel($id);
+        $course->link('users', $user);
+        Yii::$app->session->setFlash('success', "You have been enrolled.");
+        return $this->redirect(['view', 'id' => $id]);
     }
 }

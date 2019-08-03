@@ -53,11 +53,8 @@ class Courses extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    // public function getUserCourses()
-    // {
-    //     return $this->hasMany(UserCourses::className(), ['course_id' => 'id']);
-    // }
-    public function getUser() {
+  
+    public function getUsers() {
         return $this->hasMany(User::className(), ['id' => 'user_id'])
           ->viaTable('user_courses', ['course_id' => 'id']);
     }
