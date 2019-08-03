@@ -155,7 +155,7 @@ class CoursesController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
-    public function actionMyCourses($id)
+    public function actionMyCourses()
     {
         $courses = Yii::$app->user->identity->courses;
         return $this->render(['myCourses', 'courses' => $courses]);
